@@ -1,1 +1,1 @@
-include ':app', ':instadroid'
+include ':app'
