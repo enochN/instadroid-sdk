@@ -11,10 +11,14 @@ public final class Instadroid {
   private static final String TAG = Instadroid.class.getCanonicalName();
   private static Boolean sdkInitialized = false;
   private static Context applicationContext;
+  public static final String BASE_URL = "https://api.instagram.com/v1";
+  public static final String AUTHORIZATION_URL = "https://api.instagram.com/oauth/authorize/?";
   private static final String INSTAGRAM_CLIENT_ID_KEY = "com.enochn.instadroid.sdk.client_id";
   private static final String INSTAGRAM_CLIENT_SECRET_KEY = "com.enochn.instadroid.sdk.client_secret";
+  private static final String INSTAGRAM_REDIRECT_URI_KEY = "com.enochn.instadroid.sdk.redirect_uri";
   private static volatile String instagramClientId;
   private static volatile String instagramClientSecret;
+  private static volatile String instagramRedirectUri;
 
   public static synchronized void init(Context applicationContext){
     if (sdkInitialized){
@@ -33,7 +37,7 @@ public final class Instadroid {
       return;
     }
 
-    ApplicationInfo appInfo = null;
+    ApplicationInfo appInfo;
     try {
       appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),
           PackageManager.GET_META_DATA);
@@ -51,6 +55,10 @@ public final class Instadroid {
 
     if (instagramClientSecret == null){
       instagramClientSecret = appInfo.metaData.getString(INSTAGRAM_CLIENT_SECRET_KEY);
+    }
+
+    if (instagramRedirectUri == null){
+      instagramRedirectUri = appInfo.metaData.getString(INSTAGRAM_REDIRECT_URI_KEY);
     }
   }
 
